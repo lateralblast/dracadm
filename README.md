@@ -1,9 +1,9 @@
-![Cat with burger](https://raw.githubusercontent.com/lateralblast/dracadm/master/dracadm.png)
+![Dracula cat](https://raw.githubusercontent.com/lateralblast/dracadm/master/dracadm.png)
 
-macadm
+dracadm
 ======
 
-A tool to run racadm on a Mac via docker
+A tool to run racadm on a Mac or non x86 bash Linux via docker
 
 Version
 -------
