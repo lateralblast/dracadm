@@ -17,6 +17,12 @@ Required packages/applications:
 
 - Docker
 
+To be able to call this script like normal racadm, symlink the script to racadm in your path, e.g.:
+
+```
+ls -s /home/user/bin/dracadm.sh /usr/local/bin/racadm
+```
+
 Introduction
 ------------
 
