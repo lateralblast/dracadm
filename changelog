@@ -10,3 +10,5 @@
 # Added version switch
 # 0.0.6: Sat Sep 30 11:02:37 AM AEST 2023
 # Added help switch 
+# 0.0.7: Sat 30 Sep 2023 16:26:13 AEST
+# Removed interactive flag so it can be run from another script that requires a TTY

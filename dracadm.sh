@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 # Name:         dracadm (docker racadm)
-# Version:      0.0.6
+# Version:      0.0.7
 # Release:      1
 # License:      CC-BA (Creative Commons By Attribution)
 #               http://creativecommons.org/licenses/by/4.0/legalcode
@@ -127,7 +127,7 @@ check_docker_container
 # Execute racadm via docker
 
 if [ "$SCRIPT_ARGS" = "--help" ] || [ "$SCRIPT_ARGS" = "-h" ]; then
-  docker run --platform "linux/amd64" -it $SCRIPT_NAME /bin/bash -c "$RAC_BIN"
+  docker run --platform "linux/amd64" -t $SCRIPT_NAME /bin/bash -c "$RAC_BIN"
 else
-  docker run --platform "linux/amd64" -it $SCRIPT_NAME /bin/bash -c "$RAC_BIN $SCRIPT_ARGS"
+  docker run --platform "linux/amd64" -t $SCRIPT_NAME /bin/bash -c "$RAC_BIN $SCRIPT_ARGS"
 fi

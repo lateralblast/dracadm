@@ -8,7 +8,7 @@ A tool to run racadm on a Mac or non x86 based (e.g. ARM) Linux machine via dock
 Version
 -------
 
-Current version: 0.0.6
+Current version: 0.0.7
 
 Prerequisites
 -------------
