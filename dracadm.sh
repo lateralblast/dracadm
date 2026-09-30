@@ -1,10 +1,10 @@
 #!/usr/bin/env bash
 
 # Name:         dracadm (docker racadm)
-# Version:      0.0.7
+# Version:      0.1.7
 # Release:      1
-# License:      CC-BA (Creative Commons By Attribution)
-#               http://creativecommons.org/licenses/by/4.0/legalcode
+# License:      CC BY-NC-SA (Creative Commons Attribution-NonCommercial-ShareAlike)
+#               http://creativecommons.org/licenses/by-nc-sa/4.0/legalcode
 # Group:        System
 # Source:       N/A
 # URL:          http://lateralblast.com.au/
@@ -13,7 +13,6 @@
 # Packager:     Richard Spindler <richard@lateralblast.com.au>
 # Description:  Shell script designed to provide racadm to platforms that can't run it via docker
 
-SCRIPT_ARGS="$*"
 SCRIPT_NAME="dracadm"
 UBUNTU_VER="22.04"
 UBUNTU_REL="jammy"
@@ -53,15 +52,13 @@ check_workdir_exists () {
 # Check docker is installed
 
 check_docker_install () {
-  test=$(which docker |grep -v found)
-  if [[ ! "$test" =~ "docker" ]]; then
+  if ! command -v docker > /dev/null 2>&1; then
     echo "Warning: docker not installed"
-    exit
+    exit 1
   fi
-  test=$(which docker-compose |grep -v found)
-  if [[ ! "$test" =~ "docker" ]]; then
-    echo "Warning: docker-compose not installed"
-    exit
+  if ! docker info > /dev/null 2>&1; then
+    echo "Warning: docker daemon not running or not accessible"
+    exit 1
   fi
   return
 }
@@ -70,8 +67,7 @@ check_docker_install () {
 
 check_docker_container () {
   if ! [ -f "/.dockerenv" ]; then
-    DOCKER_IMAGE_CHECK=$( docker images |grep "^$SCRIPT_NAME" |awk '{print $1}' )
-    if ! [ "$DOCKER_IMAGE_CHECK" = "$SCRIPT_NAME" ]; then
+    if ! docker image inspect "$SCRIPT_NAME" > /dev/null 2>&1; then
       echo "version: \"3\"" > "$WORK_DIR/docker-compose.yml"
       echo "" >> "$WORK_DIR/docker-compose.yml"
       echo "services:" >> "$WORK_DIR/docker-compose.yml"
@@ -90,7 +86,7 @@ check_docker_container () {
     fi
   else
     echo "Warning: Running inside docker"
-    exit
+    exit 1
   fi
 }
 
@@ -107,13 +103,13 @@ HELP
 
 # If passed no arguments print help 
 
-if [ "$SCRIPT_ARGS" = "" ]; then
+if [ $# -eq 0 ]; then
   print_help
 fi
 
 # Do some basic argument checking
 
-if [ "$SCRIPT_ARGS" = "--version" ] || [ "$SCRIPT_ARGS" = "-V" ]; then
+if [ "$1" = "--version" ] || [ "$1" = "-V" ]; then
   echo "$SCRIPT_VERSION"
   exit
 fi
@@ -126,8 +122,8 @@ check_docker_container
 
 # Execute racadm via docker
 
-if [ "$SCRIPT_ARGS" = "--help" ] || [ "$SCRIPT_ARGS" = "-h" ]; then
-  docker run --platform "linux/amd64" -t $SCRIPT_NAME /bin/bash -c "$RAC_BIN"
+if [ "$1" = "--help" ] || [ "$1" = "-h" ]; then
+  docker run --rm --platform "linux/amd64" -t -v "$PWD":/work -w /work "$SCRIPT_NAME" "$RAC_BIN"
 else
-  docker run --platform "linux/amd64" -t $SCRIPT_NAME /bin/bash -c "$RAC_BIN $SCRIPT_ARGS"
+  docker run --rm --platform "linux/amd64" -t -v "$PWD":/work -w /work "$SCRIPT_NAME" "$RAC_BIN" "$@"
 fi

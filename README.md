@@ -8,7 +8,7 @@ A tool to run racadm on a Mac or non x86 based (e.g. ARM) Linux machine via dock
 Version
 -------
 
-Current version: 0.0.7
+Current version: 0.1.7
 
 Prerequisites
 -------------
@@ -20,7 +20,7 @@ Required packages/applications:
 To be able to call this script like normal racadm, symlink the script to racadm in your path, e.g.:
 
 ```
-ls -s /home/user/bin/dracadm.sh /usr/local/bin/racadm
+ln -s /home/user/bin/dracadm.sh /usr/local/bin/racadm
 ```
 
 Introduction
@@ -72,8 +72,8 @@ arguments that are used with racadm can be used with the script.
 
 Exceptions to this are:
 
-- The --version switch returns the version of the local script
-- The --help swich is converted to nothing to return help as racadm does not have a help switch
+- The --version (or -V) switch, as the first argument, returns the version of the local script
+- The --help (or -h) switch, as the first argument, is converted to nothing to return help as racadm does not have a help switch
 
 To get help on how to use the racadm command use the --help switch:
 
@@ -132,3 +132,8 @@ Display more detailed help for a specific subcommand:
 
 -------------------------------------------------------------------------------
 ```
+
+License
+-------
+
+Licensed under [CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/). See the LICENSE file.
